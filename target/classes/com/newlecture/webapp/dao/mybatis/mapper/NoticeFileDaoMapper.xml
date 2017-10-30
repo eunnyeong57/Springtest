@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.newlecture.webapp.dao.NoticeFileDao">
+    
+    <select id="getListByNoticeId" resultType="com.newlecture.webapp.entity.NoticeFile">
+	</select>
+	
+	<insert id="insert" parameterType="com.newlecture.webapp.entity.NoticeFile">
+		insert into NoticeFile(id, src, noticeId)
+		value((select IFNULL(max(cast(id as unsigned)), 0)+1 from NoticeFile f),#{src}, #{noticeId});
+	</insert>
+	
+	<update id="update" parameterType="com.newlecture.webapp.entity.NoticeFile">
+		update NoticeFile
+		set src = #{src}, noticeId = #{noticeId}
+		where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from NoticeFile
+		where id=#{id}
+	</delete>
+	
+    </mapper>

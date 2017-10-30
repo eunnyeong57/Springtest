@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   
+   <!-- Core Concern -->
+   <bean id="target" class="com.newlecture.webapp.aop.spring.NewlecCalculator" />
+   
+   
+   <!-- handler -->
+   <bean id="handler" class="com.newlecture.webapp.aop.spring.LogHandler" />
+   <bean id="before" class="com.newlecture.webapp.aop.spring.BeforeHandler" />
+   <bean id="after" class="com.newlecture.webapp.aop.spring.AfterHandler" />
+   <bean id="throwing" class="com.newlecture.webapp.aop.spring.ThrowingHandler" />
+
+	<!--point cut-->
+	<bean id="methodNamePointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedName" value="add"/>	
+	</bean>
+	<!-- Adviser -->
+	<bean id="methodNameAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="methodNamePointcut"/>
+		<property name="advice" ref="before"/>
+	</bean>
+	
+   <!-- proxy -->
+   <bean id="cal" class="org.springframework.aop.framework.ProxyFactoryBean">
+      <property name="target" ref="target" />
+      <property name="interceptorNames" >
+         <list>
+         	<value>methodNameAdvisor</value>
+           <!--  <value>handler</value>
+             <value>before</value>
+             <value>after</value>
+             <value>throwing</value> -->
+         </list>
+      </property>
+   
+   </bean>
+
+
+</beans>
